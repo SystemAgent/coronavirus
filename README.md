@@ -1,6 +1,6 @@
 # Coronavirus Bulgaria
 
-##Purpose
+## Purpose
 
 The purpose of the project is to provide accurate and up-to date data and analysis on the Coronavirus pandemic 
 with a focus on Bulgaria.
@@ -41,3 +41,8 @@ http://localhost:8080/home/
 http://localhost:8000/admin/, 
 
 
+## Run migrations
+
+```bash
+python manage.py migrate
+```
