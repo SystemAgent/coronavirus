@@ -40,7 +40,4 @@ http://localhost:8080/home/
 
 http://localhost:8000/admin/, 
 
-`user: admin`, `password: qazwsxedc`
-
-## Testing
 
