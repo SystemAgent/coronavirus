@@ -3,6 +3,9 @@ import uuid
 
 
 class Totals(models.Model):
+    class Meta:
+        db_table = 'totals'
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     serial_number = models.IntegerField('serial_number')
     observation_date = models.DateField('observation_date')
@@ -15,10 +18,15 @@ class Totals(models.Model):
 
 
 class Individuals(models.Model):
+    class Meta:
+        db_table = 'individuals'
+
+    SEX_TYPES = (('M', 'Male'), ('F', 'Female'),)
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     ID = models.IntegerField('identification_number')
     age = models.IntegerField('age')
-    sex = models.CharField('sex', max_length=100)
+    sex = models.CharField('sex', max_length=1, choices=SEX_TYPES)
     city = models.CharField('city', max_length=1000)
     province = models.CharField('province', max_length=1000)
     country = models.CharField('country', max_length=1000)
@@ -27,5 +35,5 @@ class Individuals(models.Model):
     date_confirmation = models.DateField('date_confirmation')
     symptoms = models.CharField('symptoms', max_length=2000)
     travel_dates = models.DateField('travel_history_dates')
-    travel_location = models.CharField('travel_history_location', max_length=1000)
-
+    travel_location = models.CharField(
+        'travel_history_location', max_length=1000)

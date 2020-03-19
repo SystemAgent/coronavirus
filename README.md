@@ -5,44 +5,45 @@
 The purpose of the project is to provide accurate and up-to date data and analysis on the Coronavirus pandemic 
 with a focus on Bulgaria.
 
-## Setup
+## Development setup
+	```
+	#Install virtualenv 
+	pip install virtualenv
 
-##Install and create virtualenv
+	#Create virtualenv for project
+	virtualenv -p python3.7 env
 
-```
-#Install virtualenv 
-pip install virtualenv
+	#Activate virtualenv
+	source ./env/bin/activate
+	
+	python setup.py develop
 
-#Create virtualenv for project
-virtualenv -p python3.7 env
 
-#Activate virtualenv
-source ./env/bin/activate
-```
+Create `.env` file in root path replacing the bracketed values:
 
-### Install Django:
-```bash
-python -m pip install Django
-```
-### Install requirements.txt:
-```bash
-pip install -r requirements.txt
-```
+	POSTGRES_USER=<USERNAME>
+	POSTGRES_PASS=<PASSWORD>
+	POSTGRES_HOST=<HOST>
+	POSTGRES_DB=<NAME>
 
+## Migrations
+
+	Run:
+		python manage.py migrate
+	
+	Create:
+		python manage.py makemigrations --name <"something">
+
+	Reverse:
+		python manage.py migrate coronavirus_bg <"number">
+
+	Reverse all migration:
+		python manage.py migrate coronavirus_bg zero
 
 ## Run Development Server
 
-```bash
-python manage.py runserver 8080
-```
+	python manage.py runserver 8080
 
-http://localhost:8080/home/
+	http://localhost:8080/home/
 
-http://localhost:8000/admin/, 
-
-
-## Run migrations
-
-```bash
-python manage.py migrate
-```
+	http://localhost:8000/admin/, 
