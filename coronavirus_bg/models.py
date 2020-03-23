@@ -37,3 +37,16 @@ class Individuals(models.Model):
     travel_dates = models.DateField('travel_history_dates')
     travel_location = models.CharField(
         'travel_history_location', max_length=1000)
+
+
+class Tweets(models.Model):
+    class Meta:
+        db_table = 'tweets'
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user_id = models.CharField('twitter_api_user_id', max_length=1000)
+    tweet_id = models.CharField('twitter_api_tweet_id', max_length=1000)
+    datetime = models.DateTimeField('twitter_api_datetime')
+    text = models.CharField('full_tweet_text', max_length=1000)
+    url = models.CharField('full_tweet_url', max_length=1000)
+    total_cases_bg = models.IntegerField('total_cases_infected_bulgaria')
