@@ -35,6 +35,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'coronavirus_bg.apps.CoronavirusBgConfig',
+    'django.contrib.postgres',
+    'psqlextra',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -79,7 +81,7 @@ WSGI_APPLICATION = 'coronavirus.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'psqlextra.backend',
         'NAME': POSTGRES_DB,
         'USER': POSTGRES_USER,
         'PASSWORD': POSTGRES_PASS,
@@ -125,3 +127,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Twitter API Keys&Tokens
+USERNAMES = [3769353255]
+TWEEPY_TOKENS = [('XiSbWzmry7hyGpxudAQwIIrY5', 'JEeblKjvG6D6zUOm25t0VVMvUOl0iI9dlws8fyZJix8wWCLAwU',
+                  '2922691415-AkbWiBHbC5OjTGqsosXdUIVXzXXzlycMIU5xX5N', 'eo68BqeuP9JqLNcr7XV4zrhba2Y6rWvmdrJMjyo7J2Ow5')]
