@@ -56,23 +56,3 @@ class Command(BaseCommand):
                                             text=x['text'], url=x['url']))
 
         final.apply(lambda x: dump(x), axis=1)
-
-
-
-# def get_newest_tweets(user_id, stop_slack_notifications=False):
-#     """Get all new tweets for user we already have."""
-#     api = make_tweepy_api()
-#
-#     new_tweets = tweepy.Cursor(api.user_timeline, user_id=user_id, tweet_mode="extended",
-#                                since_id=latest, exclude_replies=True).items()
-#     results = [[tweet.user.id, tweet.id, tweet.created_at,
-#                 tweet.full_text, stitch(tweet.user.screen_name, tweet.id_str)] for tweet in new_tweets]
-#     if not results:
-#         return
-#     new_result = [{'user_id': el[0], 'tweet_id': el[1],
-#                    'datetime': el[2], 'text': el[3], 'url': el[4]} for el in results]
-
-
-
-
-
