@@ -2,6 +2,7 @@ from django.db import models
 import uuid
 from psqlextra.models import PostgresModel
 
+
 class Totals(PostgresModel):
     class Meta:
         db_table = 'totals'
@@ -40,7 +41,7 @@ class Individuals(PostgresModel):
     symptoms = models.CharField('symptoms', max_length=2000, blank=True, null=True)
     travel_dates = models.DateField('travel_history_dates', blank=True, null=True)
     travel_location = models.CharField(
-        'travel_history_location', max_length=1000)
+        'travel_history_location', max_length=1000, blank=True, null=True)
 
 
 class Tweets(PostgresModel):

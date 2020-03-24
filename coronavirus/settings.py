@@ -128,7 +128,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Twitter API Keys&Tokens
-USERNAMES = [3769353255]
-TWEEPY_TOKENS = [('XiSbWzmry7hyGpxudAQwIIrY5', 'JEeblKjvG6D6zUOm25t0VVMvUOl0iI9dlws8fyZJix8wWCLAwU',
-                  '2922691415-AkbWiBHbC5OjTGqsosXdUIVXzXXzlycMIU5xX5N', 'eo68BqeuP9JqLNcr7XV4zrhba2Y6rWvmdrJMjyo7J2Ow5')]
+try:
+    from local_settings import *
+except ImportError:
+    pass
