@@ -3,10 +3,6 @@ __pycache__/
 *.py[cod]
 .ipynb_checkpoints
 
-<<<<<<< HEAD
-=======
-
->>>>>>> c7d52735876ffe245160f90434fbe8b8e1812474
 # Environmets
 env
 .env
@@ -32,9 +28,6 @@ share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-<<<<<<< HEAD
 MANIFEST
-=======
-env
-.env
->>>>>>> c7d52735876ffe245160f90434fbe8b8e1812474
+
+.vscode/
