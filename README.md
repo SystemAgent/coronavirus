@@ -26,6 +26,14 @@ Create `.env` file in root path replacing the bracketed values:
 	POSTGRES_HOST=<HOST>
 	POSTGRES_DB=<NAME>
 
+## Fill Database with virus spread for country:
+
+	python manage.py country_spread <"country">
+
+	Example:
+		python manage.py country_spread Bulgaria
+	
+
 ## Migrations
 
 	Run:
