@@ -8,7 +8,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('coronavirus_bg', '0001_Individuals_and_Totals_schema'),
+        ('stats', '0001_initial'),
     ]
 
     operations = [

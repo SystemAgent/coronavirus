@@ -1,0 +1,17 @@
+import os
+
+# Generate one by running:
+#    `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'`
+SECRET_KEY = ""
+
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'psqlextra.backend',
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'NAME': os.environ.get('POSTGRES_DB', 'corona_bg'),
+        'USER': os.environ.get('POSTGRES_USER', os.getenv('USER')),
+        'PASSWORD': os.environ.get('POSTGRES_PASS', ''),
+    }
+}
