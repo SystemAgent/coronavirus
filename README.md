@@ -33,6 +33,15 @@ Create `.env` file in root path replacing the bracketed values:
 	Example:
 		python manage.py country_spread Bulgaria
 	
+## Fill Database with tweets from a user:
+
+	python manage.py get_twitter_data <"user_id"> <'tweet_id'>
+
+	Example:
+		python manage.py get_twitter_data 3769353255 1242365860980949002
+		
+	The tweet_id is needed for querying the Twitter API usefully, 
+	and will provide all tweets since that tweet_id provided in the command.
 
 ## Migrations
 
