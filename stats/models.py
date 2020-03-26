@@ -50,9 +50,8 @@ class Individual(PostgresModel):
         'travel_history_location', max_length=1000, blank=True, null=True)
 
 
-class Tweets(PostgresModel):
+class Tweet(PostgresModel):
     class Meta:
-        db_table = 'tweets'
         unique_together = ('tweet_id', 'datetime')
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
