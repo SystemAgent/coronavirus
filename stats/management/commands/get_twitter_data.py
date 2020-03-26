@@ -3,11 +3,12 @@ import pandas as pd
 import tweepy
 import requests
 import json
-from coronavirus_bg.models import Tweets
-from psqlextra.query import ConflictAction
-from coronavirus.settings import TWEEPY_TOKENS,USERNAMES
 
+from psqlextra.query import ConflictAction
 from django.core.management.base import BaseCommand, CommandError
+
+from coronavirus.settings import TWEEPY_TOKENS, USERNAMES
+from stats.models import Tweet
 
 
 class Command(BaseCommand):

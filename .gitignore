@@ -31,3 +31,5 @@ share/python-wheels/
 MANIFEST
 coronavirus/local_setting.py
 .vscode/
+
+local_settings.py

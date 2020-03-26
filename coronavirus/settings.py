@@ -12,9 +12,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
-from config import POSTGRES_DB, POSTGRES_HOST, POSTGRES_PASS, POSTGRES_USER
-
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -34,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'coronavirus_bg.apps.CoronavirusBgConfig',
+    'stats',
     'django.contrib.postgres',
     'psqlextra',
     'django.contrib.admin',
@@ -76,20 +73,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'coronavirus.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'psqlextra.backend',
-        'NAME': POSTGRES_DB,
-        'USER': POSTGRES_USER,
-        'PASSWORD': POSTGRES_PASS,
-        'HOST': POSTGRES_HOST,
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -129,6 +112,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass
