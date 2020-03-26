@@ -1,6 +1,6 @@
 from django.db import models
-from psqlextra.models import PostgresModel
 import uuid
+from psqlextra.models import PostgresModel
 
 
 class Totals(PostgresModel):
@@ -42,3 +42,17 @@ class Individuals(PostgresModel):
     travel_dates = models.DateField('travel_history_dates', blank=True, null=True)
     travel_location = models.CharField(
         'travel_history_location', max_length=1000, blank=True, null=True)
+
+
+class Tweets(PostgresModel):
+    class Meta:
+        db_table = 'tweets'
+        unique_together = ('tweet_id', 'datetime')
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user_id = models.CharField('twitter_api_user_id', max_length=1000, blank=True, null=True)
+    tweet_id = models.CharField('twitter_api_tweet_id', max_length=1000, blank=True, null=True)
+    datetime = models.DateTimeField('twitter_api_datetime', blank=True, null=True)
+    text = models.CharField('full_tweet_text', max_length=1000, blank=True, null=True)
+    url = models.CharField('full_tweet_url', max_length=1000, blank=True, null=True)
+    total_cases_bg = models.IntegerField('total_cases_infected_bulgaria', blank=True, null=True)
