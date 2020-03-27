@@ -19,13 +19,14 @@ class Command(BaseCommand):
         # Base URL for coronavirus githubdata
         BASE_URL = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/'
         confirmed_df = pd.read_csv(
-            BASE_URL + 'time_series_19-covid-Confirmed.csv')
-        deaths_df = pd.read_csv(BASE_URL + 'time_series_19-covid-Deaths.csv')
+            BASE_URL + 'time_series_covid19_confirmed_global.csv')
+        deaths_df = pd.read_csv(
+            BASE_URL + 'time_series_covid19_deaths_global.csv')
         recoveries_df = pd.read_csv(
-            BASE_URL + 'time_series_19-covid-Recovered.csv')
+            BASE_URL + 'time_series_covid19_recovered_global.csv')
 
-        country_df = confirmed_df[confirmed_df['Country/Region'] == country]
-
+        # country_df = confirmed_df[confirmed_df['Country/Region'] == country]
+        # print(country_df)
         # preprocess
         final_df = pd.DataFrame()
         for df in [confirmed_df, deaths_df, recoveries_df]:
