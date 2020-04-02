@@ -25,6 +25,10 @@ Example:
 
 	python manage.py country_spread Bulgaria
 
+## Fill Database with all Europe data
+
+	bash scripts/fill_total_database.sh
+
 ## Fill Database with tweets from a user:
 
 	python manage.py get_twitter_data <"user_id"> <'tweet_id'>

@@ -6,14 +6,13 @@ from psqlextra.models import PostgresModel
 
 class Total(PostgresModel):
     class Meta:
-        unique_together = ('observation_date', 'country',)
+        unique_together = ('observation_date', 'country', 'province_state')
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     observation_date = models.DateField('observation_date')
     country = models.CharField(max_length=1000)
-
-    serial_number = models.IntegerField('serial_number', blank=True, null=True)
     province_state = models.CharField(max_length=1000, blank=True, null=True)
+
     last_update = models.DateTimeField('last_update', blank=True, null=True)
     confirmed = models.BigIntegerField(
         'confirmed_cases', blank=True, null=True)

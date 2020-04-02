@@ -25,25 +25,21 @@ class Command(BaseCommand):
         recoveries_df = pd.read_csv(
             BASE_URL + 'time_series_covid19_recovered_global.csv')
 
-        # country_df = confirmed_df[confirmed_df['Country/Region'] == country]
-        # print(country_df)
         # preprocess
-        final_df = pd.DataFrame()
-        for df in [confirmed_df, deaths_df, recoveries_df]:
-            country_df = df[df['Country/Region'] == country]
-            country_df.drop(['Province/State', 'Country/Region',
-                             'Lat', 'Long'], axis=1, inplace=True)
-            country_df = country_df.T
-            country_df.index = pd.to_datetime(country_df.index)
-            final_df = pd.concat([final_df, country_df], axis=1)
+        def extract_data(df, type):
+            country_df = df[df['Country/Region']==country]
+            for index, row in country_df.iterrows():
+                province = row['Province/State']
+                for index, value in row.drop(['Province/State', 'Country/Region', 'Lat', 'Long']).items():
+                    dt = pd.to_datetime(index)
+                    new_total_arguments = {'observation_date': dt, 'country': country, 
+                                            type: value, 'province_state': province}
+                    (Total.objects
+                        .on_conflict(['observation_date', 'country', 'province_state'], ConflictAction.UPDATE)
+                        .insert_and_get(**new_total_arguments)
+                    )
 
-        final_df.columns = ['confirmed', 'deaths', 'recoveries']
+        extract_data(confirmed_df, 'confirmed')
+        extract_data(deaths_df, 'deaths')
+        extract_data(recoveries_df, 'recovered')
 
-        def to_database(x):
-            (Total.objects
-                .on_conflict(['observation_date', 'country'], ConflictAction.UPDATE)
-                .insert_and_get(observation_date=x.name, country=country, confirmed=x['confirmed'],
-                                deaths=x['deaths'], recovered=x['recoveries'])
-             )
-
-        final_df.apply(lambda x: to_database(x), axis=1)
