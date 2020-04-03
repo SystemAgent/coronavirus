@@ -10,8 +10,8 @@ MEASURE_GROUPS = [
 class Country(models.Model):
     name = models.CharField(primary_key=True, max_length=56)
     population = models.PositiveIntegerField()
-    first_case = models.DateField()
-    first_death = models.DateField()
+    first_case = models.DateField(blank=True, null=True)
+    first_death = models.DateField(blank=True, null=True)
     emergency_state = models.BooleanField(default=False)
     quarantine = models.BooleanField(default=False)
 
@@ -36,4 +36,4 @@ class Measure(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
-    group = models.CharField(choices=MEASURE_GROUPS, default='Other')
+    group = models.CharField(choices=MEASURE_GROUPS, default='Other', max_length=100)
