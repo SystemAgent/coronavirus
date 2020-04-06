@@ -9,6 +9,7 @@ from coronavirus import settings
 
 COUNTRIES_FIXTURES = os.path.join(settings.BASE_DIR, 'countries', 'fixtures')
 
+
 class Command(BaseCommand):
     help = "Initial fill of the country information"
 
