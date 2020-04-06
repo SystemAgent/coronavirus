@@ -22,10 +22,10 @@ class Country(models.Model):
 class DailyReport(models.Model):
     date = models.DateField()
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
-    cases = models.PositiveIntegerField(default=0)
-    deaths = models.PositiveIntegerField(default=0)
-    recoveries = models.PositiveIntegerField(default=0)
-    critical = models.PositiveIntegerField(default=0)
+    cases = models.PositiveIntegerField(default=0, blank=True)
+    deaths = models.PositiveIntegerField(default=0, blank=True)
+    recoveries = models.PositiveIntegerField(default=0, blank=True)
+    critical = models.PositiveIntegerField(default=0, blank=True)
 
     class Meta:
         unique_together=('date', 'country')
