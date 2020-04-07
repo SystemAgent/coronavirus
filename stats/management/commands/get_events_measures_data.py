@@ -51,7 +51,6 @@ class Command(BaseCommand):
                     elif sib.name == 'h2':
                         break
                     print(uls1)
-
         get_wiki_events(month)
 
 
