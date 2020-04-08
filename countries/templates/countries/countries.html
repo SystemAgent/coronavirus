@@ -1,0 +1,9 @@
+{% if countries %}
+    <ul>
+    {% for country in countries %}
+        <li><a href="country/{{ country.name }}/">{{ country.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No countries are available.</p>
+{% endif %}
