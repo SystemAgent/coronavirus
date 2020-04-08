@@ -8,7 +8,7 @@ setup(
     name="corona-bg",
     version="0.1",
     packages=find_packages(),
-    nstall_requires=requirements,
+    install_requires=requirements,
     extras_require={
         'dev': ['ipython', 'ipdb'],
     },
