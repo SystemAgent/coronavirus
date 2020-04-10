@@ -1,9 +1,15 @@
 import requests, itertools, re
 from bs4 import BeautifulSoup
-import numpy as np
 from _collections import defaultdict
+from datetime import datetime
 import pandas as pd
+import spacy
+import os
 from django.core.management.base import BaseCommand, CommandError
+from countries.forms import MeasureForm
+from coronavirus import settings
+
+COUNTRIES_FIXTURES = os.path.join(settings.BASE_DIR, 'countries', 'fixtures')
 
 
 class Command(BaseCommand):
@@ -54,35 +60,57 @@ class Command(BaseCommand):
         def parse_concat(list_dfs):
             dfs = []
             for df in list_dfs:
-                new = pd.DataFrame(df['measures'].str.split("]', ").tolist(), index=df.date).stack()
-                new = new.reset_index([0, 'date'])
+                new = pd.DataFrame([(tup.date, measure) for tup in df.itertuples() for measure in tup.measures])
                 new.columns = ['date', 'measures']
                 dfs.append(new)
-                print(dfs)
             df_result = pd.concat(dfs)
             return df_result
 
         def get_wiki_events(month):
             if month == 'February':
-                get_february()
+                return get_february()
             elif month == 'March':
-                get_march()
+                return get_march()
             elif month == 'all':
                 frames = []
-                febs = get_february()
+                feb = get_february()
                 march = get_march()
-                frames.append(febs)
+                frames.append(feb)
                 frames.append(march)
-                # print(frames[1])
-                print(parse_concat(frames))
+                #Get final dataframe and clean up dates and measures columns
+                all_data = parse_concat(frames)
+                all_data['date'] = all_data['date'].str.replace('[[edit][edit][edit][edit]]', '2020', regex=True)
+                all_data['date'] = all_data['date'].str.replace('[', ',', regex=True)
+                all_data['date'] = pd.to_datetime(all_data['date'], errors='coerce')
+                all_data['measures'] = all_data['measures'].str.replace('[[0-9][0-9]]', ' ', regex=True)
+                all_data = all_data.dropna()
 
-        get_wiki_events(month)
+                # extract entities for country field
+                sp = spacy.load("en_core_web_sm")
+                countries = []
+                countries_population = os.path.join(COUNTRIES_FIXTURES, 'countries_population.csv')
+                csv = pd.read_csv(countries_population, delimiter=';')
+                options = set(csv['name'].values)
+                for text in all_data['measures'].tolist():
+                    doc = sp(text)
+                    for ent in doc.ents:
+                        if ent.label_ == 'GPE':
+                            if ent.text in options:
+                                countries.append(ent.text)
+                            all_data['countries'] = pd.Series(countries[:444])
 
+                return all_data
 
-#TODO Save scraped data to db
-# for date, events in url.items():
-#     for event in events:
-#         (Total.objects
-#             .on_conflict(['date', 'event'], ConflictAction.UPDATE)
-#             .insert_and_get(date=date, event=event)
-#         )
+        final = get_wiki_events(month)
+        errors = 0
+        rows = 0
+
+        for row in final.itertuples(index=True):
+            rows += 1
+            form = MeasureForm({'name': getattr(row, "measures"), 'start_date': getattr(row, "date"),
+                                'end_date': getattr(row, "date"), 'country': getattr(row, 'countries')})
+            if form.is_valid():
+                form.save()
+            else:
+                errors += 1
+        print("Result: {}/{}".format(rows - errors, rows))

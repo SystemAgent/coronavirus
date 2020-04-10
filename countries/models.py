@@ -32,7 +32,7 @@ class DailyReport(models.Model):
 
 
 class Measure(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=1000)
     start_date = models.DateField()
     end_date = models.DateField()
     country = models.ForeignKey('Country', on_delete=models.CASCADE)
