@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=coronavirus
+      - POSTGRES_USER=<set me>
+      - POSTGRES_PASSWORD=<set me>
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+  web:
+    image: docker.stageai.tech/coronavirus:latest
+    command: gunicorn coronavirus.wsgi:application --bind 0.0.0.0:8000
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_DB=coronavirus
+      - POSTGRES_USER=<set me>
+      - POSTGRES_PASSWORD=<set me>
+      - SECRET_KEY=<set me>
+      - DOMAINS=localhost 127.0.0.1 [::1] covid19.stageai.tech
+    volumes:
+      - ~/src/coronavirus/media:/home/app/src/coronavirus/media
+      - ~/src/coronavirus/static:/home/app/src/coronavirus/static
+    ports:
+      - "8888:8000"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
