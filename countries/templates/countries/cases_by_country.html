@@ -1,0 +1,20 @@
+{% if cases %}
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Cases</th>
+            <th>Death cases</th>
+            <th>Recoveries</th>
+        </tr>
+    {% for daily_report in cases %}
+        <tr>
+            <th>{{ daily_report.date  }}</th>
+            <th>{{ daily_report.cases }}</th>
+            <th>{{ daily_report.deaths }}</th>
+            <th>{{ daily_report.recoveries }}</th>
+        </tr>
+    {% endfor %}
+    </table>
+{% else %}
+    <p>No cases are available.</p>
+{% endif %}
