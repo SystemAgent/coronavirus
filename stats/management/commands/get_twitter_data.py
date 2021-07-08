@@ -1,13 +1,11 @@
 import random
 import pandas as pd
 import tweepy
-import requests
-import json
 
 from psqlextra.query import ConflictAction
 from django.core.management.base import BaseCommand, CommandError
 
-from coronavirus.settings import TWEEPY_TOKENS, USERNAMES
+from coronavirus.local_settings import TWEEPY_TOKENS
 from stats.models import Tweet
 
 
@@ -40,10 +38,10 @@ class Command(BaseCommand):
         api = make_tweepy_api()
         new_tweets = tweepy.Cursor(api.user_timeline, user_id=user_id, count=200, tweet_mode="extended",
                                    since_id=tweet_id, exclude_replies=True).items()
-        print(new_tweets)
+
         results = [[tweet.user.id, tweet.id_str, tweet.created_at, tweet.full_text,
                     stitch(tweet.user.screen_name, tweet.id_str)] for tweet in new_tweets]
-        print(results)
+
         if not results:
             return
         new_result = [{'user_id': el[0], 'tweet_id': el[1],
@@ -51,9 +49,9 @@ class Command(BaseCommand):
         final = pd.DataFrame(new_result)
 
         def dump(x):
-            (Tweets.objects.on_conflict(['tweet_id', 'datetime'], ConflictAction.UPDATE)
-                            .insert_and_get(user_id=x['user_id'], tweet_id=x['tweet_id'],
-                                            datetime=x['datetime'],
-                                            text=x['text'], url=x['url']))
+            (Tweet.objects.on_conflict(['tweet_id', 'datetime'], ConflictAction.UPDATE)
+                          .insert_and_get(user_id=x['user_id'], tweet_id=x['tweet_id'],
+                                          datetime=x['datetime'],
+                                          text=x['text'], url=x['url']))
 
         final.apply(lambda x: dump(x), axis=1)
